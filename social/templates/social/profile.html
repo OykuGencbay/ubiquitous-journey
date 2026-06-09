@@ -1,0 +1,14 @@
+<h1>{{ user.username }}'s Profile</h1>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<a href="/">Home</a>
+<hr>
+<h2>Your Posts</h2>
+{% for post in posts %}
+    <div>
+        <p>{{ post.text }}</p>
+        <small>{{ post.created_at }}</small>
+    </div>
+    <hr>
+{% empty %}
+    <p>You have not posted yet.</p>
+{% endfor %}

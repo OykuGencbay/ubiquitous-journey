@@ -1,0 +1,12 @@
+<h1>My Friends</h1>
+<a href="/">Home</a>
+<hr>
+{% for connection in connections %}
+    <p>
+        <a href="/user/{{ connection.to_user.username }}/">
+            {{ connection.to_user.username }}
+        </a>
+    </p>
+{% empty %}
+    <p>You have no friends yet.</p>
+{% endfor %}
