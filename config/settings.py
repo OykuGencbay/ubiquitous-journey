@@ -5,6 +5,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "dev-secret-key-change-later"
 DEBUG = True
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = "/login/"
 INSTALLED_APPS = [
     "social",
     "django.contrib.admin",
@@ -66,3 +69,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "/login/"
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://realsns.onrender.com",
+]
