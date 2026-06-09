@@ -2,6 +2,14 @@
 <p><strong>Username:</strong> {{ user.username }}</p>
 <a href="/">Home</a>
 <hr>
+{% if profile.profile_picture %}
+    <img src="{{ profile.profile_picture.url }}" width="150">
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload Picture</button>
+</form>
 <h2>Your Posts</h2>
 {% for post in posts %}
     <div>

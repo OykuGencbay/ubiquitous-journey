@@ -4,6 +4,7 @@ from .forms import PostForm
 from .models import Post, AddCode, Profile
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Connection
+from .forms import ProfilePictureForm
 def home(request):
     if request.user.is_authenticated:
         friend_ids = Connection.objects.filter(
@@ -97,4 +98,27 @@ def bluetooth_add_friend(request):
 
     return render(request, "social/bluetooth_add_friend.html", {
         "message": message
+    })
+@login_required
+def profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == "POST":
+        form = ProfilePictureForm(
+            request.POST,
+            request.FILES,
+            instance=profile
+        )
+        if form.is_valid():
+            form.save()
+            return redirect("/profile/")
+    else:
+        form = ProfilePictureForm(instance=profile)
+
+    posts = Post.objects.filter(
+        author=request.user
+    ).order_by("-created_at")
+    return render(request, "social/profile.html", {
+        "profile": profile,
+        "posts": posts,
+        "form": form,
     })
