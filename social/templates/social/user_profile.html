@@ -2,6 +2,11 @@
 <a href="/">Home</a>
 <hr>
 <h2>Posts</h2>
+{% if profile.profile_picture %}
+    <img src="{{ profile.profile_picture.url }}" width="150">
+{% else %}
+    <p>No profile picture yet.</p>
+{% endif %}
 {% for post in posts %}
     <div>
         <p>{{ post.text }}</p>
