@@ -14,4 +14,5 @@ urlpatterns = [
     path("user/<str:username>/", views.user_profile, name="user_profile"),
     path("friends/", views.friend_list, name="friend_list"),
     path("nearby/", views.nearby, name="nearby"),
+    path("bluetooth-add/", views.bluetooth_add_friend, name="bluetooth_add_friend"),
 ]

@@ -1,12 +1,9 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
 from .forms import RegisterForm
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from .models import AddCode
 from .forms import PostForm
-from .models import Post, AddCode, Profile, Connection
+from .models import Post, AddCode, Profile
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Connection
 def home(request):
     if request.user.is_authenticated:
         friend_ids = Connection.objects.filter(
@@ -78,4 +75,26 @@ def user_profile(request, username):
         "profile_user": profile_user,
         "profile": profile,
         "posts": posts,
+    })
+@login_required
+def bluetooth_add_friend(request):
+    message = ""
+
+    if request.method == "POST":
+        username = request.POST.get("username")
+        other_user = get_object_or_404(User, username=username)
+
+        if other_user != request.user:
+            Connection.objects.get_or_create(
+                from_user=request.user,
+                to_user=other_user
+            )
+            Connection.objects.get_or_create(
+                from_user=other_user,
+                to_user=request.user
+            )
+            message = f"You are now friends with {other_user.username}."
+
+    return render(request, "social/bluetooth_add_friend.html", {
+        "message": message
     })

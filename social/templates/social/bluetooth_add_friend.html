@@ -1,0 +1,33 @@
+<h1>Add Nearby Friend</h1>
+<button onclick="scanBluetooth()">Scan Bluetooth Nearby</button>
+<p id="status"></p>
+<form method="post" id="friendForm" style="display:none;">
+    {% csrf_token %}
+    <p>Bluetooth nearby check passed.</p>
+    <label>Enter their username:</label>
+    <input type="text" name="username" required>
+    <button type="submit">Add Friend</button>
+</form>
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+<a href="/">Home</a>
+<script>
+async function scanBluetooth() {
+    const status = document.getElementById("status");
+    const form = document.getElementById("friendForm");
+    if (!navigator.bluetooth) {
+        status.innerText = "Bluetooth is not supported in this browser.";
+        return;
+    }
+    try {
+        const device = await navigator.bluetooth.requestDevice({
+            acceptAllDevices: true
+        });
+        status.innerText = "Nearby Bluetooth device found: " + (device.name || "Unnamed device");
+        form.style.display = "block";
+    } catch (error) {
+        status.innerText = "Bluetooth scan cancelled or failed.";
+    }
+}
+</script>
