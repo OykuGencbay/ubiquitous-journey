@@ -16,4 +16,5 @@ urlpatterns = [
     path("nearby/", views.nearby, name="nearby"),
     path("bluetooth-add/", views.bluetooth_add_friend, name="bluetooth_add_friend"),
     path("user/<str:username>/remove-friend/", views.remove_friend, name="remove_friend"),
+    path("reply/<int:post_id>/", views.reply_to_post, name="reply_to_post"),
 ]

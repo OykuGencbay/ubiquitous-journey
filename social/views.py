@@ -136,3 +136,14 @@ def remove_friend(request, username):
             to_user=request.user
         ).delete()
     return redirect("/friends/")
+@login_required
+def reply_to_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == "POST":
+        text = request.POST.get("text")
+        Comment.objects.create(
+            post=post,
+            author=request.user,
+            text=text
+        )
+    return redirect("/")
