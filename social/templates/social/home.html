@@ -33,13 +33,13 @@
     {% if post.image %}
     <br>
     <img src="{{ post.image.url }}" width="300">
-{% endif %}
+    {% endif %}
         <small>{{ post.created_at }}</small>
     <form method="post" action="/reply/{{ post.id }}/">
     {% csrf_token %}
     <input type="text" name="text" placeholder="Write a reply">
     <button type="submit">Reply</button>
-</form>
+    </form>
     {% for comment in post.comment_set.all %}
     <p>
         <strong>{{ comment.author.username }}</strong>:
