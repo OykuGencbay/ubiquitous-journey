@@ -1,4 +1,5 @@
 <h1>My Friends</h1>
+<h1>My Friends</h1>
 <a href="/">Home</a>
 <hr>
 {% for connection in connections %}
@@ -7,6 +8,11 @@
             {{ connection.to_user.username }}
         </a>
     </p>
+    <form method="post" action="/user/{{ connection.to_user.username }}/remove-friend/">
+        {% csrf_token %}
+        <button type="submit">Remove Friend</button>
+    </form>
+    <hr>
 {% empty %}
     <p>You have no friends yet.</p>
 {% endfor %}

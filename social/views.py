@@ -122,3 +122,16 @@ def profile(request):
         "posts": posts,
         "form": form,
     })
+@login_required
+def remove_friend(request, username):
+    other_user = get_object_or_404(User, username=username)
+    if request.method == "POST":
+        Connection.objects.filter(
+            from_user=request.user,
+            to_user=other_user
+        ).delete()
+        Connection.objects.filter(
+            from_user=other_user,
+            to_user=request.user
+        ).delete()
+    return redirect("/friends/")
