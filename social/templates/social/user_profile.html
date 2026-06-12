@@ -1,4 +1,5 @@
 <h1>{{ profile_user.username }}'s Profile</h1>
+<p><strong>Friends:</strong> {{ friend_count }}</p>
 <a href="/">Home</a>
 {% if profile.profile_picture %}
     <img src="{{ profile.profile_picture.url }}" width="150">

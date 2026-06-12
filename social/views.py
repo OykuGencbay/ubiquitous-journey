@@ -102,6 +102,7 @@ def bluetooth_add_friend(request):
 @login_required
 def profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
+    friend_count = Connection.objects.filter(from_user=request.user).count()
     if request.method == "POST":
         form = ProfilePictureForm(
             request.POST,
@@ -113,7 +114,6 @@ def profile(request):
             return redirect("/profile/")
     else:
         form = ProfilePictureForm(instance=profile)
-
     posts = Post.objects.filter(
         author=request.user
     ).order_by("-created_at")
@@ -121,6 +121,7 @@ def profile(request):
         "profile": profile,
         "posts": posts,
         "form": form,
+        "friend_count": friend_count,
     })
 @login_required
 def remove_friend(request, username):
