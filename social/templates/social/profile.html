@@ -1,3 +1,5 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'social/style.css' %}">
 <h1>{{ user.username }}'s Profile</h1>
 <p><strong>Friends:</strong> {{ friend_count }}</p>
 <p><strong>Username:</strong> {{ user.username }}</p>

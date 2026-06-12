@@ -1,3 +1,5 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'social/style.css' %}">
 <h1>Login</h1>
 {% if form.errors %}
     <p style="color:red;">Login failed. Check username/password.</p>
