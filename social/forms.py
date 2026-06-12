@@ -10,7 +10,7 @@ from .models import Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["text"]
+        fields = ["text", "image"]
 class ProfilePictureForm(forms.ModelForm):
     class Meta:
         model = Profile

@@ -16,7 +16,7 @@ def home(request):
     else:
         posts = Post.objects.none()
     if request.method == "POST" and request.user.is_authenticated:
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user

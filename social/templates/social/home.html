@@ -7,7 +7,7 @@
     <br>
     <a href="/bluetooth-add/">Add Nearby Friend</a>
     <br><br>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Post</button>
@@ -30,6 +30,10 @@
             <strong>{{ post.author.username }}</strong>
         </a>
         <p>{{ post.text }}</p>
+    {% if post.image %}
+    <br>
+    <img src="{{ post.image.url }}" width="300">
+{% endif %}
         <small>{{ post.created_at }}</small>
     <form method="post" action="/reply/{{ post.id }}/">
     {% csrf_token %}

@@ -31,6 +31,7 @@ class AddCode(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(max_length=500)
+    image = models.ImageField(upload_to="post_images/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
