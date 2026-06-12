@@ -5,6 +5,7 @@ from .models import Post, AddCode, Profile
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Connection
 from .forms import ProfilePictureForm
+from django.contrib import messages
 def home(request):
     if request.user.is_authenticated:
         friend_ids = Connection.objects.filter(
@@ -146,4 +147,14 @@ def reply_to_post(request, post_id):
             author=request.user,
             text=text
         )
+    return redirect("/")
+@login_required
+def delete_post_image(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+
+    if request.method == "POST":
+        if post.image:
+            post.image.delete(save=False)
+            post.image = None
+            post.save()
     return redirect("/")
