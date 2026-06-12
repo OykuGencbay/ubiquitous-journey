@@ -1,12 +1,16 @@
-<h1>Real Life Social Network</h1>
+<h1>Real Life Social Network (Beta) </h1>
 {% if user.is_authenticated %}
     <p>Hello {{ user.username }}!</p>
     <a href="/profile/">My Profile</a>
+    <br>
     <a href="/friends/">My Friends</a>
-    <a href="/bluetooth-add/">Add Nearby Friend</a>
+    <br>
     <a href="/forums/">Public Forums</a>
+    <br>
     <a href="/receive-code/">Show My Friend Code</a>
+    <br>
     <a href="/bluetooth-add/">Add Nearby Friend</a>
+    <br>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
