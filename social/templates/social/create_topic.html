@@ -1,0 +1,7 @@
+<h1>Create Topic</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post Topic</button>
+</form>
+<a href="/forums/">Back</a>

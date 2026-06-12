@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Connection
 from .forms import ProfilePictureForm
 from django.contrib import messages
+from .models import ForumTopic, ForumReply
+from .forms import ForumTopicForm, ForumReplyForm
 def home(request):
     if request.user.is_authenticated:
         friend_ids = Connection.objects.filter(
@@ -81,12 +83,19 @@ def user_profile(request, username):
 @login_required
 def bluetooth_add_friend(request):
     message = ""
-
     if request.method == "POST":
-        username = request.POST.get("username")
-        other_user = get_object_or_404(User, username=username)
-
-        if other_user != request.user:
+        code = request.POST.get("code")
+        add_code = get_object_or_404(
+            AddCode,
+            code=code,
+            used=False
+        )
+        if add_code.is_expired():
+            message = "This code expired."
+        elif add_code.user == request.user:
+            message = "You cannot add yourself."
+        else:
+            other_user = add_code.user
             Connection.objects.get_or_create(
                 from_user=request.user,
                 to_user=other_user
@@ -95,8 +104,9 @@ def bluetooth_add_friend(request):
                 from_user=other_user,
                 to_user=request.user
             )
+            add_code.used = True
+            add_code.save()
             message = f"You are now friends with {other_user.username}."
-
     return render(request, "social/bluetooth_add_friend.html", {
         "message": message
     })
@@ -154,3 +164,48 @@ def delete_post(request, post_id):
     if request.method == "POST" and post.author == request.user:
         post.delete()
     return redirect("/")
+@login_required
+def forum_list(request):
+    topics = ForumTopic.objects.all().order_by("-created_at")
+    return render(request, "social/forum_list.html", {"topics": topics})
+@login_required
+def create_topic(request):
+    if request.method == "POST":
+        form = ForumTopicForm(request.POST)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.author = request.user
+            topic.save()
+            return redirect("/forums/")
+    else:
+        form = ForumTopicForm()
+    return render(request, "social/create_topic.html", {"form": form})
+@login_required
+def topic_detail(request, topic_id):
+    topic = get_object_or_404(ForumTopic, id=topic_id)
+    replies = ForumReply.objects.filter(topic=topic).order_by("created_at")
+    if request.method == "POST":
+        form = ForumReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.topic = topic
+            reply.author = request.user
+            reply.save()
+            return redirect(f"/forums/{topic.id}/")
+    else:
+        form = ForumReplyForm()
+    return render(request, "social/topic_detail.html", {
+        "topic": topic,
+        "replies": replies,
+        "form": form,
+    })
+@login_required
+def receive_friend_code(request):
+    code = AddCode.generate_code()
+    AddCode.objects.create(
+        user=request.user,
+        code=code
+    )
+    return render(request, "social/receive_friend_code.html", {
+        "code": code
+    })

@@ -2,11 +2,11 @@
 {% if user.is_authenticated %}
     <p>Hello {{ user.username }}!</p>
     <a href="/profile/">My Profile</a>
-    <br>
     <a href="/friends/">My Friends</a>
-    <br>
     <a href="/bluetooth-add/">Add Nearby Friend</a>
-    <br><br>
+    <a href="/forums/">Public Forums</a>
+    <a href="/receive-code/">Show My Friend Code</a>
+    <a href="/bluetooth-add/">Add Nearby Friend</a>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}

@@ -1,0 +1,15 @@
+<h1>Public Forums</h1>
+<a href="/">Home</a>
+<br>
+<a href="/forums/new/">Create Topic</a>
+<hr>
+{% for topic in topics %}
+    <h3>
+        <a href="/forums/{{ topic.id }}/">{{ topic.title }}</a>
+    </h3>
+    <p>by {{ topic.author.username }}</p>
+    <small>{{ topic.created_at }}</small>
+    <hr>
+{% empty %}
+    <p>No topics yet.</p>
+{% endfor %}

@@ -1,0 +1,22 @@
+<h1>{{ topic.title }}</h1>
+<p>{{ topic.body }}</p>
+<p>by {{ topic.author.username }}</p>
+<a href="/forums/">Back to Forums</a>
+<hr>
+<h2>Replies</h2>
+{% for reply in replies %}
+    <p>
+        <strong>{{ reply.author.username }}</strong>:
+        {{ reply.text }}
+    </p>
+    <small>{{ reply.created_at }}</small>
+    <hr>
+{% empty %}
+    <p>No replies yet.</p>
+{% endfor %}
+<h3>Reply</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Reply</button>
+</form>

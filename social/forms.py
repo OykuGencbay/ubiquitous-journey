@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import Post, Profile, Comment
+from .models import ForumTopic, ForumReply
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
@@ -18,4 +19,12 @@ class ProfilePictureForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
+        fields = ["text"]
+class ForumTopicForm(forms.ModelForm):
+    class Meta:
+        model = ForumTopic
+        fields = ["title", "body"]
+class ForumReplyForm(forms.ModelForm):
+    class Meta:
+        model = ForumReply
         fields = ["text"]

@@ -1,11 +1,12 @@
 <h1>Add Nearby Friend</h1>
+<p>First, scan Bluetooth nearby. Then enter the code shown on your friend's phone.</p>
 <button onclick="scanBluetooth()">Scan Bluetooth Nearby</button>
 <p id="status"></p>
 <form method="post" id="friendForm" style="display:none;">
     {% csrf_token %}
-    <p>Bluetooth nearby check passed.</p>
-    <label>Enter their username:</label>
-    <input type="text" name="username" required>
+    <label>Enter friend's code:</label>
+    <input type="text" name="code" required>
+
     <button type="submit">Add Friend</button>
 </form>
 {% if message %}
@@ -24,7 +25,7 @@ async function scanBluetooth() {
         const device = await navigator.bluetooth.requestDevice({
             acceptAllDevices: true
         });
-        status.innerText = "Nearby Bluetooth device found: " + (device.name || "Unnamed device");
+        status.innerText = "Nearby Bluetooth device found. Now enter your friend's code.";
         form.style.display = "block";
     } catch (error) {
         status.innerText = "Bluetooth scan cancelled or failed.";
