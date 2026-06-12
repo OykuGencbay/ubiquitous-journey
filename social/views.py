@@ -149,12 +149,8 @@ def reply_to_post(request, post_id):
         )
     return redirect("/")
 @login_required
-def delete_post_image(request, post_id):
-    post = get_object_or_404(Post, id=post_id, author=request.user)
-
-    if request.method == "POST":
-        if post.image:
-            post.image.delete(save=False)
-            post.image = None
-            post.save()
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == "POST" and post.author == request.user:
+        post.delete()
     return redirect("/")
