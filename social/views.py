@@ -1,13 +1,13 @@
 from .forms import RegisterForm
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
-from .models import Post, AddCode, Profile
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Connection
 from .forms import ProfilePictureForm
 from django.contrib import messages
 from .models import ForumTopic, ForumReply
 from .forms import ForumTopicForm, ForumReplyForm
+from .models import Post, Profile, Connection, AddCode
 def home(request):
     if request.user.is_authenticated:
         friend_ids = Connection.objects.filter(
